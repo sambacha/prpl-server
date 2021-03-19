@@ -12,11 +12,11 @@
   "author": "The Polymer Project Authors",
   "license": "BSD-3-Clause",
   "scripts": {
-    "build": "rm -Rf lib/ && tsc",
-    "build:watch": "tsc --watch",
+    "build": "rm -Rf lib/ && npx tsc",
+    "build:watch": "npx tsc --watch",
     "format": "find src -name '*.ts' | xargs clang-format --style=file -i",
-    "test": "mocha lib/test/**/*_test.js",
-    "test:watch": "tsc-then -- npm run test"
+    "test": "npx mocha lib/test/**/*_test.js",
+    "test:watch": "npx tsc-then -- npm run test"
   },
   "files": [
     "bin/**/*",
