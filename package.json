@@ -54,8 +54,5 @@
     "source-map-support": "^0.5.19",
     "tsc-then": "^1.1.0",
     "typescript": "^3.9.7"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   }
 }
