@@ -1,10 +1,11 @@
-[![Travis Build Status](https://travis-ci.org/Polymer/prpl-server-node.svg?branch=master)](https://travis-ci.org/Polymer/prpl-server-node)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/3bfbf7fgdifebv7o/branch/master?svg=true)](https://ci.appveyor.com/project/aomarks/prpl-server-node/branch/master)
-[![NPM version](http://img.shields.io/npm/v/prpl-server.svg)](https://www.npmjs.com/package/prpl-server)
 
 # prpl-server
 
 An HTTP server for Node designed to serve [PRPL](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) apps in production.
+
+> fork version
+> 
+[![nodejs](https://github.com/sambacha/prpl-server/actions/workflows/nodejs.yml/badge.svg)](https://github.com/sambacha/prpl-server/actions/workflows/nodejs.yml)
 
 ## Contents
 - [Usage](#usage)
