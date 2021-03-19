@@ -1,5 +1,5 @@
 # GitHub Nodejs CI
-name: nodejs
+name: publish
 
 on: ['pull_request']
 
