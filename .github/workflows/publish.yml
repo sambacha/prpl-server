@@ -1,26 +1,35 @@
-name: Create and publish a package
-on:
-  push:
-    branches: ['master']
+# GitHub Nodejs CI
+name: nodejs
+
+on: ['pull_request']
+
 jobs:
-  run-npm-build:
+  build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ['14.x']
+
     steps:
       - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          check-latest: true
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build
+          npm run test
+        env:
+          CI: true
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@migroscomtr'
-      - run: npm install
-      - run: npm run build
-      - run: npm test
-      - name: npm version patch
-        run: |
-          git config --local user.email "heroci@startuphero.es"
-          git config --local user.name "heroci"
-          npm version patch
-          git push
+          # Defaults to the user or organization that owns the workflow file
+      # Publish to GitHub Packages
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
