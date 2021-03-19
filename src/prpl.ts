@@ -64,6 +64,8 @@ export interface Config {
     name?: string,
     browserCapabilities?: capabilities.BrowserCapability[],
   }[];
+  username?: string;
+  password?: string;
 }
 
 // Matches URLs like "/foo/bar.png" but not "/foo.png/bar".

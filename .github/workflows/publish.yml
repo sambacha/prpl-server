@@ -1,0 +1,26 @@
+name: Create and publish a package
+on:
+  push:
+    branches: ['master']
+jobs:
+  run-npm-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@migroscomtr'
+      - run: npm install
+      - run: npm run build
+      - run: npm test
+      - name: npm version patch
+        run: |
+          git config --local user.email "heroci@startuphero.es"
+          git config --local user.name "heroci"
+          npm version patch
+          git push
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
