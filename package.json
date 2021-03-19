@@ -1,8 +1,8 @@
 {
   "name": "prpl-server",
-  "version": "1.4.2",
-  "description": "A Node implementation of the PRPL pattern for serving Progressive Web Apps",
-  "repository": "git+https://github.com/Polymer/prpl-server-node.git",
+  "version": "1.5.0",
+  "description": "fork implementation of the PRPL pattern for serving Progressive Web Apps",
+  "repository": "git@github.com:sambacha/prpl-server.git",
   "main": "lib/prpl.js",
   "types": "lib/prpl.d.ts",
   "bin": "bin/prpl-server",
@@ -15,14 +15,13 @@
     "build": "rm -Rf lib/ && tsc",
     "build:watch": "tsc --watch",
     "format": "find src -name '*.ts' | xargs clang-format --style=file -i",
-    "prepack": "npm run build",
-    "prepublishOnly": "npm  test",
-    "test": "npm run build && mocha lib/test/**/*_test.js",
+    "test": "mocha lib/test/**/*_test.js",
     "test:watch": "tsc-then -- npm run test"
   },
   "files": [
     "bin/**/*",
-    "lib/**/*"
+    "lib/**/*",
+    "polymer.json"
   ],
   "dependencies": {
     "ansi-escape-sequences": "^5.1.2",
@@ -31,7 +30,9 @@
     "command-line-usage": "^6.1.0",
     "compression": "^1.7.4",
     "express": "^4.17.1",
+    "express-prom-bundle": "6.3.4",
     "http-errors": "^1.8.0",
+    "prom-client": "13.1.0",
     "rendertron-middleware": "^0.1.5",
     "send": "^0.17.1",
     "statuses": "^2.0.0",
@@ -53,5 +54,8 @@
     "source-map-support": "^0.5.19",
     "tsc-then": "^1.1.0",
     "typescript": "^3.9.7"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }

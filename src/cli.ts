@@ -15,8 +15,9 @@
 import * as compression from 'compression';
 import * as express from 'express';
 import * as fs from 'fs';
-import * as path from 'path';
 import type {AddressInfo} from 'net';
+import {collectDefaultMetrics} from 'prom-client';
+import * as promBundle from 'express-prom-bundle';
 
 import * as prpl from './prpl';
 
@@ -80,10 +81,11 @@ const argDefs = [
     description:
         'The Cache-Control header to send for all requests except the ' +
         'entrypoint (default from config file or "max-age=60").',
-  },
+  }
 ];
 
 export function run(argv: string[]) {
+  collectDefaultMetrics();
   const args = commandLineArgs(argDefs, {argv});
 
   if (args.help) {
@@ -118,7 +120,7 @@ export function run(argv: string[]) {
   // If specified explicitly, a missing config file will error. Otherwise, try
   // the default location and only warn when it's missing.
   if (!args.config) {
-    const p = path.join(args.root, 'polymer.json');
+    const p = '../polymer.json';
     if (fs.existsSync(p)) {
       args.config = p;
     } else {
@@ -133,7 +135,7 @@ export function run(argv: string[]) {
 
   if (args['cache-control']) {
     config.cacheControl = args['cache-control'];
-  };
+  }
 
   const app = express();
 
@@ -153,7 +155,20 @@ export function run(argv: string[]) {
       res.redirect(301, `https://${req.hostname}${req.url}`);
     });
   }
-
+  app.use((req, res, next) => {
+    if (req.path === '/prometheus') {
+      const authHeader = req.header('Authorization');
+      const token = Buffer.from(`${config.username}:${config.password}`).toString('base64');
+      const required = `Basic ${token}`;
+      if (authHeader !== required) {
+        res.setHeader('WWW-Authenticate', 'Basic');
+        res.sendStatus(401);
+        return;
+      }
+    }
+    next();
+  });
+  app.use(promBundle({metricsPath: '/prometheus'}));
   app.use(compression());
 
   if (args['bot-proxy']) {
